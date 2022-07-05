@@ -3,7 +3,7 @@ import { fetchImg } from './js/fetch.js';
 import { renderGallery } from './js/render.js';
 import { onScroll, onTopButton } from './js/scroll.js';
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
+import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchForm = document.querySelector('#search-form');
