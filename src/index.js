@@ -4,14 +4,20 @@ import { renderGallery } from './js/render.js';
 import { onScroll, onTopButton } from './js/scroll.js';
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
-import 'simplelightbox/dist/simple-lightbox.min.css';
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadMore = document.querySelector('.load-more');
 let query = '';
 let page = 1;
-let simpleLightBox;
+let simpleLightBox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+    nav: true,
+    showCounter: true,
+    enableKeyboard: true
+});
 const perPage = 40;
 
 searchForm.addEventListener('submit', onSearchForm);
@@ -39,7 +45,7 @@ function onSearchForm(event) {
             noImagesFound();
         } else {
             renderGallery(data.hits);
-            simpleLightBox = new SimpleLightbox('gallery a').refresh();
+            simpleLightBox.refresh();
             imagesFound(data);
 
             if (data.totalHits > perPage) {
@@ -60,7 +66,7 @@ function onLoadMore() {
     fetchImg(query, page, perPage)
         .then(({ data }) => {
             renderGallery(data.hits);
-            simpleLightBox = new SimpleLightbox('gallery a').refresh();
+            simpleLightBox.refresh();
 
             const totalPages = Math.ceil(data.totalHits / perPage);
 
