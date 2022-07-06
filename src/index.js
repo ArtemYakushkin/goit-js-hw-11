@@ -11,13 +11,7 @@ const gallery = document.querySelector('.gallery');
 const loadMore = document.querySelector('.load-more');
 let query = '';
 let page = 1;
-let simpleLightBox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-    nav: true,
-    showCounter: true,
-    enableKeyboard: true
-});
+let simpleLightBox;
 const perPage = 40;
 
 searchForm.addEventListener('submit', onSearchForm);
@@ -45,7 +39,7 @@ function onSearchForm(event) {
             noImagesFound();
         } else {
             renderGallery(data.hits);
-            simpleLightBox.refresh();
+            simpleLightBox = new SimpleLightbox('.gallery a').refresh();
             imagesFound(data);
 
             if (data.totalHits > perPage) {
@@ -66,11 +60,9 @@ function onLoadMore() {
     fetchImg(query, page, perPage)
         .then(({ data }) => {
             renderGallery(data.hits);
-            simpleLightBox.refresh();
+            simpleLightBox = new SimpleLightbox('.gallery a').refresh();
 
-            const totalPages = Math.ceil(data.totalHits / perPage);
-
-            if (page > totalPages) {
+            if (page * 40 > data.totalHits) {
                 loadMore.classList.add('is-hidden');
                 endOfSearch();
             }
